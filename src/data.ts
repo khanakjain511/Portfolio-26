@@ -69,6 +69,7 @@ export const portfolio = {
     email: 'khanakjain511@gmail.com',
     linkedin: 'https://www.linkedin.com/in/khanakjain0511/',
     github: 'khanakjain511',
+    instagram: 'khanakjainn_',
   },
 } as const;
 
