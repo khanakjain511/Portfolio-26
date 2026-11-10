@@ -1,18 +1,27 @@
-# Khanak Jain — Digital Fieldnotes
+# KHANAK.OS — A Digital Universe
 
-A responsive portfolio with a progressive Three.js layer: an abstract hero sculpture and a shared spatial gallery, backed by the original accessible HTML, ASCII art, and project archive.
+An interactive 3D portfolio for Khanak Jain. Visitors enter a real-time Three.js world, orbit its floating islands, and select six spatial locations to explore the existing portfolio archive. The experience is built with React, TypeScript, React Three Fiber, Drei, and Framer Motion.
 
-## Run locally
+## Local development
 
-Serve this folder over HTTP (for example, `python3 -m http.server 8000`) and open `http://localhost:8000`. The 3D module loads on demand from jsDelivr; when WebGL or the CDN is unavailable, the rest of the portfolio remains usable. Typography loads from Google Fonts when connected, with system fallbacks.
+Run npm install followed by npm run dev.
 
-## Update the archive
+The production bundle can be generated with npm run build and previewed with npm run preview.
 
-Edit the `portfolio` object near the top of `script.js` to update project descriptions, contributions, verified repository/demo URLs, and personal contact links. Empty URLs remain visibly unavailable.
+## Portfolio data
 
-## Files
+Edit src/data.ts to update the biography, education, projects, links, technical inventory, experience, achievements, and contact details. Project and social links are intentionally shown as unavailable until a verified URL is provided.
 
-- `index.html` — semantic page structure, metadata, ASCII fallback, and scene mounts
-- `styles.css` — responsive visual system and motion
-- `script.js` — project data, navigation, command palette, and archive interactions
-- `universe.js` — lazy Three.js scenes, 3D exhibit focus, WebGL fallback, and reduced-motion handling
+## Experience and accessibility
+
+- Drag or touch-drag to orbit the world; use the wheel or pinch to zoom.
+- Select an island in the scene or use the visible location menu.
+- Choose Guided tour to visit each location in order. Reset view returns to the map.
+- The text archive after the 3D stage contains the same content for keyboard, assistive technology, and WebGL fallback use.
+- Reduced-motion preferences disable ambient movement and camera easing. Mobile devices use a lower rendering resolution and lighter particle field.
+
+## Deployment
+
+vercel.json configures Vercel to build with npm run build and serve dist. The GitHub Pages workflow also builds and publishes dist to keep the existing Pages deployment working.
+
+No models, screenshots, or contact URLs are fabricated. The world is assembled from procedural Three.js geometry and limited particle effects.
