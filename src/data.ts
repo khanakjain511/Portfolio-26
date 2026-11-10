@@ -65,7 +65,11 @@ export const portfolio = {
     event: 'IIT Roorkee E-Summit HPCL Productathon',
     detail: 'Third place · Final product pitch to the HPCL Technology Team · Built alongside a collaborative team.',
   },
-  contact: { email: '', linkedin: '', github: '' },
+  contact: {
+    email: 'khanakjain511@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/khanakjain0511/',
+    github: 'khanakjain511',
+  },
 } as const;
 
 export const locations: Location[] = [

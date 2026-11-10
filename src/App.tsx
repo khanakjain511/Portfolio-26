@@ -128,7 +128,7 @@ function LocationContent({ id }: { id: LocationId }) {
       <div className="contact-options">
         {portfolio.contact.email ? <a href={'mailto:' + portfolio.contact.email}>EMAIL ↗<small>{portfolio.contact.email}</small></a> : <span>EMAIL <small>Not published</small></span>}
         {portfolio.contact.linkedin ? <a href={portfolio.contact.linkedin} target="_blank" rel="noreferrer">LINKEDIN ↗</a> : <span>LINKEDIN <small>Not published</small></span>}
-        {portfolio.contact.github ? <a href={portfolio.contact.github} target="_blank" rel="noreferrer">GITHUB ↗</a> : <span>GITHUB <small>Not published</small></span>}
+        {portfolio.contact.github ? <a href={`https://github.com/${portfolio.contact.github}`} target="_blank" rel="noreferrer">GITHUB ↗</a> : <span>GITHUB <small>Not published</small></span>}
       </div>
     </>
   );
