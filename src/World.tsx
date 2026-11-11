@@ -11,22 +11,30 @@ type WorldProps = {
   mobile: boolean;
   reducedMotion: boolean;
   visible: boolean;
+  theme: 'light' | 'dark';
   onSelect: (id: LocationId) => void;
   onReady: () => void;
 };
 
-const accent = '#b6f09c';
-const spotColor: Record<LocationId, string> = {
-  about: '#c5d4bd',
-  projects: '#b6f09c',
-  tech: '#d4d1bf',
-  experience: '#a7c5ad',
-  achievements: '#d6c7a0',
-  contact: '#b5ccbe',
+const scenePalette = {
+  dark: {
+    accent: '#B6F09C',
+    spots: { about: '#c5d4bd', projects: '#b6f09c', tech: '#d4d1bf', experience: '#a7c5ad', achievements: '#d6c7a0', contact: '#b5ccbe' },
+    platform: '#1a201c', activePlatform: '#354436', platformTop: '#101512', identityBase: '#202a22', identityTop: '#131a15', sculpture: '#d7ddd2',
+    project: ['#c9d3c3', '#adc6b0', '#c8cfbc', '#c4cbd2', '#d2d4c6'], projectGlow: '#314531',
+    clear: '#090909', fog: '#090909', ambient: '#b3bdaf', sky: '#667a68', ground: '#090b09', key: '#e6e8d9', fill: '#597b5c', grid: '#1c2a1e', gridSection: '#344033',
+  },
+  light: {
+    accent: '#526C42',
+    spots: { about: '#657458', projects: '#526C42', tech: '#72694f', experience: '#536c5c', achievements: '#806d3e', contact: '#536c63' },
+    platform: '#c9c4b8', activePlatform: '#b5bea9', platformTop: '#ded9cc', identityBase: '#c6c0b4', identityTop: '#e7e2d7', sculpture: '#70796a',
+    project: ['#737c68', '#64775f', '#807b68', '#6c7780', '#827d6b'], projectGlow: '#788d67',
+    clear: '#F1EEE8', fog: '#e5e0d5', ambient: '#fff8e8', sky: '#e5ead9', ground: '#898779', key: '#fff7e5', fill: '#8da37b', grid: '#c9c6b8', gridSection: '#aaa995',
+  },
 };
 
-function Icon({ id, tint }: { id: LocationId; tint: string }) {
-  const material = <meshPhysicalMaterial color={tint} metalness={0.72} roughness={0.22} clearcoat={0.9} clearcoatRoughness={0.18} />;
+function Icon({ id, tint, theme }: { id: LocationId; tint: string; theme: 'light' | 'dark' }) {
+  const material = <meshPhysicalMaterial color={tint} metalness={0.72} roughness={theme === 'light' ? 0.3 : 0.22} clearcoat={0.9} clearcoatRoughness={0.18} />;
   if (id === 'projects') {
     return <mesh rotation={[0.3, 0.2, 0]}>{material}<torusKnotGeometry args={[0.39, 0.105, 88, 12, 2, 3]} /></mesh>;
   }
@@ -45,11 +53,12 @@ function Icon({ id, tint }: { id: LocationId; tint: string }) {
   return <mesh rotation={[0.25, 0.3, 0]}>{material}<sphereGeometry args={[0.4, 20, 20]} /></mesh>;
 }
 
-function Station({ location, active, onSelect }: { location: Location; active: boolean; onSelect: (id: LocationId) => void }) {
+function Station({ location, active, onSelect, theme }: { location: Location; active: boolean; onSelect: (id: LocationId) => void; theme: 'light' | 'dark' }) {
   const [hovered, setHovered] = useState(false);
   const root = useRef<THREE.Group>(null);
   const icon = useRef<THREE.Group>(null);
-  const tint = spotColor[location.id];
+  const palette = scenePalette[theme];
+  const tint = palette.spots[location.id];
   useFrame((_state, delta) => {
     if (root.current) {
       const target = active ? 1.12 : hovered ? 1.07 : 1;
@@ -70,13 +79,13 @@ function Station({ location, active, onSelect }: { location: Location; active: b
           onClick={select} onPointerOver={(event) => { event.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
           onPointerOut={() => { setHovered(false); document.body.style.cursor = ''; }}>
           <cylinderGeometry args={[1.38, 1.18, 0.36, 6, 1]} />
-          <meshStandardMaterial color={active ? '#354436' : '#1a201c'} metalness={0.54} roughness={0.38} />
+          <meshStandardMaterial color={active ? palette.activePlatform : palette.platform} metalness={theme === 'dark' ? 0.54 : 0.35} roughness={0.38} />
         </mesh>
         <mesh position={[0, -0.1, 0]} rotation={[0, Math.PI / 6, 0]} onClick={select}
           onPointerOver={(event) => { event.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
           onPointerOut={() => { setHovered(false); document.body.style.cursor = ''; }}>
           <cylinderGeometry args={[1.18, 1.18, 0.08, 6, 1]} />
-          <meshStandardMaterial color="#101512" metalness={0.43} roughness={0.34} />
+          <meshStandardMaterial color={palette.platformTop} metalness={0.43} roughness={0.34} />
         </mesh>
         <mesh position={[0, 0.01, 0]} rotation={[0, 0, 0]}>
           <torusGeometry args={[1.02, active || hovered ? 0.025 : 0.012, 5, 72]} />
@@ -85,10 +94,10 @@ function Station({ location, active, onSelect }: { location: Location; active: b
         <group ref={icon} position={[0, 0.72, 0]} onClick={select}
           onPointerOver={(event) => { event.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
           onPointerOut={() => { setHovered(false); document.body.style.cursor = ''; }}>
-          <Icon id={location.id} tint={tint} />
+          <Icon id={location.id} tint={tint} theme={theme} />
           <mesh rotation={[0.55, 0.35, 0]} scale={1.18}>
             <torusGeometry args={[0.58, 0.009, 4, 56]} />
-            <meshBasicMaterial color={accent} transparent opacity={active ? 0.62 : 0.24} />
+            <meshBasicMaterial color={palette.accent} transparent opacity={active ? 0.62 : 0.24} />
           </mesh>
         </group>
         <mesh position={[0, 0.29, 0]}>
@@ -108,7 +117,8 @@ function Station({ location, active, onSelect }: { location: Location; active: b
   );
 }
 
-function Identity() {
+function Identity({ theme }: { theme: 'light' | 'dark' }) {
+  const palette = scenePalette[theme];
   const group = useRef<THREE.Group>(null);
   useFrame((_state, delta) => {
     if (group.current) group.current.rotation.y += delta * 0.06;
@@ -117,19 +127,19 @@ function Identity() {
     <group ref={group} position={[0, 0, 0]}>
       <mesh position={[0, -0.18, 0]}>
         <cylinderGeometry args={[1.8, 2, 0.34, 8]} />
-        <meshStandardMaterial color="#202a22" metalness={0.7} roughness={0.28} />
+        <meshStandardMaterial color={palette.identityBase} metalness={0.7} roughness={0.28} />
       </mesh>
       <mesh position={[0, 0.03, 0]}>
         <cylinderGeometry args={[1.55, 1.55, 0.09, 8]} />
-        <meshPhysicalMaterial color="#131a15" metalness={0.75} roughness={0.18} clearcoat={1} />
+        <meshPhysicalMaterial color={palette.identityTop} metalness={0.75} roughness={0.18} clearcoat={1} />
       </mesh>
       <mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.64, 0.018, 5, 96]} />
-        <meshBasicMaterial color={accent} transparent opacity={0.68} />
+        <meshBasicMaterial color={palette.accent} transparent opacity={0.68} />
       </mesh>
       <mesh position={[0, 1.05, 0]}>
         <torusKnotGeometry args={[0.61, 0.11, 92, 12, 2, 3]} />
-        <meshPhysicalMaterial color="#d7ddd2" metalness={0.78} roughness={0.2} clearcoat={0.9} />
+        <meshPhysicalMaterial color={palette.sculpture} metalness={0.78} roughness={theme === 'light' ? 0.28 : 0.2} clearcoat={0.9} />
       </mesh>
       <Html position={[0, 0.37, 0]} center distanceFactor={8} style={{ pointerEvents: 'none' }}>
         <div className="identity-mark">
@@ -149,10 +159,10 @@ function ExhibitShape({ index }: { index: number }) {
   return <boxGeometry args={[0.44, 0.44, 0.44, 1, 1, 1]} />;
 }
 
-function ProjectArtifact({ index, position, title, active, onSelect }: { index: number; position: [number, number, number]; title: string; active: boolean; onSelect: (id: LocationId) => void }) {
+function ProjectArtifact({ index, position, title, active, onSelect, theme }: { index: number; position: [number, number, number]; title: string; active: boolean; onSelect: (id: LocationId) => void; theme: 'light' | 'dark' }) {
   const mesh = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
-  const colors = ['#c9d3c3', '#adc6b0', '#c8cfbc', '#c4cbd2', '#d2d4c6'];
+  const palette = scenePalette[theme];
   useFrame((_state, delta) => {
     if (!mesh.current) return;
     mesh.current.rotation.y += delta * (hovered ? 0.38 : 0.055);
@@ -167,11 +177,11 @@ function ProjectArtifact({ index, position, title, active, onSelect }: { index: 
           onPointerOver={(event) => { event.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
           onPointerOut={() => { setHovered(false); document.body.style.cursor = ''; }}>
           <ExhibitShape index={index} />
-          <meshPhysicalMaterial color={colors[index]} metalness={0.72} roughness={0.2} clearcoat={0.85} emissive="#314531" emissiveIntensity={hovered ? 0.32 : 0.07} />
+          <meshPhysicalMaterial color={palette.project[index]} metalness={0.72} roughness={theme === 'light' ? 0.28 : 0.2} clearcoat={0.85} emissive={palette.projectGlow} emissiveIntensity={hovered ? 0.24 : 0.035} />
         </mesh>
         <mesh rotation={[0.5 + index * 0.12, 0.2, 0]} scale={1.45}>
           <torusGeometry args={[0.38, 0.008, 4, 40]} />
-          <meshBasicMaterial color={accent} transparent opacity={hovered ? 0.72 : 0.28} />
+          <meshBasicMaterial color={palette.accent} transparent opacity={hovered ? 0.72 : 0.28} />
         </mesh>
         <Html position={[0, 0.62, 0]} center distanceFactor={13} style={{ pointerEvents: 'none' }}>
           <span className={'artifact-label' + (active || hovered ? ' is-visible' : '')} aria-hidden={!active && !hovered}>{String(index + 1).padStart(2, '0')} / {title.toUpperCase()}</span>
@@ -181,7 +191,7 @@ function ProjectArtifact({ index, position, title, active, onSelect }: { index: 
   );
 }
 
-function ProjectExhibits({ active, onSelect }: { active: boolean; onSelect: (id: LocationId) => void }) {
+function ProjectExhibits({ active, onSelect, theme }: { active: boolean; onSelect: (id: LocationId) => void; theme: 'light' | 'dark' }) {
   const exhibits = [
     { position: [-5.15, 0.6, -7.2] as [number, number, number] },
     { position: [-3.8, 0.9, -9.7] as [number, number, number] },
@@ -189,10 +199,10 @@ function ProjectExhibits({ active, onSelect }: { active: boolean; onSelect: (id:
     { position: [-1.05, 0.65, -5.6] as [number, number, number] },
     { position: [-4.25, 1.15, -4.8] as [number, number, number] },
   ];
-  return <>{exhibits.map((item, index) => <ProjectArtifact key={portfolio.projects[index].name} index={index} position={item.position} title={portfolio.projects[index].name} active={active} onSelect={onSelect} />)}</>;
+  return <>{exhibits.map((item, index) => <ProjectArtifact key={portfolio.projects[index].name} index={index} position={item.position} title={portfolio.projects[index].name} active={active} onSelect={onSelect} theme={theme} />)}</>;
 }
 
-function CameraDirector({ active, controls, reducedMotion, mobile }: { active: LocationId | null; controls: RefObject<OrbitControlsImpl | null>; reducedMotion: boolean; mobile: boolean }) {
+function CameraDirector({ active, controls, reducedMotion, mobile, theme }: { active: LocationId | null; controls: RefObject<OrbitControlsImpl | null>; reducedMotion: boolean; mobile: boolean; theme: 'light' | 'dark' }) {
   const { camera, pointer } = useThree();
   const goal = useRef<{ camera: THREE.Vector3; target: THREE.Vector3 } | null>(null);
   const light = useRef<THREE.PointLight>(null);
@@ -232,37 +242,39 @@ function CameraDirector({ active, controls, reducedMotion, mobile }: { active: L
     }
   });
 
-  return <pointLight ref={light} position={[0, 3, 4]} color={accent} intensity={22} distance={16} decay={2} />;
+  return <pointLight ref={light} position={[0, 3, 4]} color={scenePalette[theme].accent} intensity={theme === 'dark' ? 22 : 10} distance={16} decay={2} />;
 }
 
-function Starfield({ mobile }: { mobile: boolean }) {
+function Starfield({ mobile, theme }: { mobile: boolean; theme: 'light' | 'dark' }) {
+  const palette = scenePalette[theme];
   return (
     <>
-      <Stars radius={42} depth={28} count={mobile ? 680 : 1800} factor={2.8} saturation={0} fade speed={0.25} />
-      <Sparkles count={mobile ? 45 : 115} scale={[23, 11, 23]} size={mobile ? 1.5 : 1.8} speed={0.12} opacity={0.5} color={accent} />
+      <Stars radius={42} depth={28} count={theme === 'light' ? (mobile ? 360 : 820) : mobile ? 680 : 1800} factor={2.8} saturation={0} fade speed={0.25} />
+      <Sparkles count={mobile ? 45 : 115} scale={[23, 11, 23]} size={mobile ? 1.5 : 1.8} speed={0.12} opacity={theme === 'light' ? 0.24 : 0.5} color={palette.accent} />
     </>
   );
 }
 
-function WorldScene({ active, mobile, reducedMotion, onSelect, controls }: Omit<WorldProps, 'onReady' | 'visible'> & { controls: RefObject<OrbitControlsImpl | null> }) {
+function WorldScene({ active, mobile, reducedMotion, onSelect, controls, theme }: Omit<WorldProps, 'onReady' | 'visible'> & { controls: RefObject<OrbitControlsImpl | null> }) {
+  const palette = scenePalette[theme];
   const ambientRef = useRef<THREE.Group>(null);
   useFrame((_state, delta) => {
     if (!reducedMotion && ambientRef.current) ambientRef.current.rotation.y += delta * 0.008;
   });
   return (
     <>
-      <color attach="background" args={['#080a09']} />
-      <fog attach="fog" args={['#080a09', 12, 32]} />
-      <ambientLight intensity={0.82} color="#b3bdaf" />
-      <hemisphereLight args={['#667a68', '#090b09', 0.68]} />
-      <directionalLight position={[-6, 10, 5]} intensity={2.1} color="#e6e8d9" />
-      <pointLight position={[0, -0.2, -8]} intensity={18} color="#597b5c" distance={18} />
-      <CameraDirector active={active} controls={controls} reducedMotion={reducedMotion} mobile={mobile} />
-      <group ref={ambientRef}><Identity /></group>
-      {locations.map((location) => <Station key={location.id} location={location} active={active === location.id} onSelect={onSelect} />)}
-      <ProjectExhibits active={active === 'projects'} onSelect={onSelect} />
-      <Grid position={[0, -0.64, 0]} infiniteGrid fadeDistance={27} fadeStrength={2.1} cellSize={1} sectionSize={5} cellColor="#1c2a1e" sectionColor="#344033" />
-      <Starfield mobile={mobile} />
+      <color attach="background" args={[palette.clear]} />
+      <fog attach="fog" args={[palette.fog, 12, 32]} />
+      <ambientLight intensity={theme === 'dark' ? 0.82 : 1.05} color={palette.ambient} />
+      <hemisphereLight args={[palette.sky, palette.ground, theme === 'dark' ? 0.68 : 0.78]} />
+      <directionalLight position={[-6, 10, 5]} intensity={theme === 'dark' ? 2.1 : 2.35} color={palette.key} />
+      <pointLight position={[0, -0.2, -8]} intensity={theme === 'dark' ? 18 : 8} color={palette.fill} distance={18} />
+      <CameraDirector active={active} controls={controls} reducedMotion={reducedMotion} mobile={mobile} theme={theme} />
+      <group ref={ambientRef}><Identity theme={theme} /></group>
+      {locations.map((location) => <Station key={location.id} location={location} active={active === location.id} onSelect={onSelect} theme={theme} />)}
+      <ProjectExhibits active={active === 'projects'} onSelect={onSelect} theme={theme} />
+      <Grid position={[0, -0.64, 0]} infiniteGrid fadeDistance={27} fadeStrength={2.1} cellSize={1} sectionSize={5} cellColor={palette.grid} sectionColor={palette.gridSection} />
+      <Starfield mobile={mobile} theme={theme} />
       <OrbitControls ref={controls} makeDefault enablePan={false} enableZoom minDistance={7.5} maxDistance={23} maxPolarAngle={Math.PI * 0.48} minPolarAngle={0.34} zoomSpeed={0.55} rotateSpeed={0.48} enableDamping dampingFactor={0.08} />
     </>
   );
@@ -272,7 +284,7 @@ function WebGLFallback() {
   return <div className="webgl-fallback">WebGL is unavailable here. Use the locations menu to explore the accessible archive.</div>;
 }
 
-export default function World({ active, mobile, reducedMotion, visible, onSelect, onReady }: WorldProps) {
+export default function World({ active, mobile, reducedMotion, visible, theme, onSelect, onReady }: WorldProps) {
   const controls = useRef<OrbitControlsImpl | null>(null);
   const dpr = useMemo<[number, number]>(() => mobile ? [0.72, 1] : [1, 1.5], [mobile]);
   return (
@@ -291,7 +303,7 @@ export default function World({ active, mobile, reducedMotion, visible, onSelect
         onReady();
       }}
     >
-      <WorldScene active={active} mobile={mobile} reducedMotion={reducedMotion} onSelect={onSelect} controls={controls} />
+      <WorldScene active={active} mobile={mobile} reducedMotion={reducedMotion} theme={theme} onSelect={onSelect} controls={controls} />
     </Canvas>
   );
 }
