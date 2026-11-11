@@ -1,5 +1,6 @@
 import { Component, lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ErrorInfo, FormEvent, ReactNode } from 'react';
+import { flushSync } from 'react-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { asciiSignal, locations, portfolio, type LocationId } from './data';
 import { AnimatedButton } from './components/ui/animated-button';
@@ -7,6 +8,10 @@ import { LiquidToggle } from './components/ui/liquid-toggle';
 
 const World = lazy(() => import('./World'));
 const tourOrder: LocationId[] = ['about', 'projects', 'tech', 'experience', 'achievements', 'contact'];
+type Theme = 'light' | 'dark';
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (update: () => void) => { finished: Promise<void> };
+};
 
 type State = { failed: boolean };
 class WorldBoundary extends Component<{ children: ReactNode; onError: () => void }, State> {
@@ -158,6 +163,7 @@ function AccessibleArchive({ onNavigate }: { onNavigate: (id: LocationId) => voi
 export default function App() {
   const reducedMotion = Boolean(useReducedMotion());
   const mobile = useMobileMode();
+  const [theme, setTheme] = useState<Theme>(() => document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
   const [active, setActive] = useState<LocationId | null>(null);
   const [entered, setEntered] = useState(false);
   const [viewMode, setViewMode] = useState<'explore' | 'terminal'>('explore');
@@ -168,9 +174,61 @@ export default function App() {
   const [tourIndex, setTourIndex] = useState<number | null>(null);
   const [stageVisible, setStageVisible] = useState(true);
   const stageRef = useRef<HTMLDivElement>(null);
+  const themeTransitionTimer = useRef<number | undefined>(undefined);
+  const explicitTheme = useRef(false);
   const activeLocation = useMemo(() => locations.find((location) => location.id === active), [active]);
   const markWorldReady = useCallback(() => setWorldReady(true), []);
   const markWorldFailed = useCallback(() => setWorldFailed(true), []);
+  const applyTheme = useCallback((next: Theme, persist = true) => {
+    const update = () => {
+      const root = document.documentElement;
+      root.dataset.theme = next;
+      root.classList.toggle('dark', next === 'dark');
+      root.style.colorScheme = next;
+      root.style.backgroundColor = next === 'light' ? '#F1EEE8' : '#090909';
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', next === 'dark' ? '#090909' : '#F1EEE8');
+      root.classList.add('theme-changing');
+      window.clearTimeout(themeTransitionTimer.current);
+      themeTransitionTimer.current = window.setTimeout(() => root.classList.remove('theme-changing'), 480);
+      setTheme(next);
+    };
+    const transitionDocument = document as DocumentWithViewTransition;
+    if (!reducedMotion && transitionDocument.startViewTransition) {
+      transitionDocument.startViewTransition(() => flushSync(update));
+    } else {
+      update();
+    }
+    if (persist) {
+      explicitTheme.current = true;
+      try { localStorage.setItem('khanak-theme', next); } catch { /* Keep the active theme for this session. */ }
+    }
+    setTheme(next);
+  }, [reducedMotion]);
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-color-scheme: light)');
+    const syncSystemTheme = () => {
+      if (explicitTheme.current) return;
+      try { if (localStorage.getItem('khanak-theme')) return; } catch { /* Follow the current system preference. */ }
+      applyTheme(preference.matches ? 'light' : 'dark', false);
+    };
+    preference.addEventListener('change', syncSystemTheme);
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === 'khanak-theme' && (event.newValue === 'light' || event.newValue === 'dark')) {
+        explicitTheme.current = true;
+        applyTheme(event.newValue, false);
+      } else if (event.key === 'khanak-theme' && event.newValue === null) {
+        explicitTheme.current = false;
+        applyTheme(preference.matches ? 'light' : 'dark', false);
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => {
+      preference.removeEventListener('change', syncSystemTheme);
+      window.removeEventListener('storage', onStorage);
+      window.clearTimeout(themeTransitionTimer.current);
+    };
+  }, [applyTheme]);
 
   const navigate = useCallback((id: LocationId) => {
     setEntered(true);
@@ -265,7 +323,7 @@ export default function App() {
       <div className="world-holder">
         <WorldBoundary onError={markWorldFailed}>
           <Suspense fallback={<div className="scene-loading"><span className="loader-mark">KJ</span><span>BUILDING THE WORLD</span></div>}>
-            <World active={active} mobile={mobile} reducedMotion={reducedMotion} visible={stageVisible} onSelect={navigate} onReady={markWorldReady} />
+            <World active={active} mobile={mobile} reducedMotion={reducedMotion} visible={stageVisible} theme={theme} onSelect={navigate} onReady={markWorldReady} />
           </Suspense>
         </WorldBoundary>
       </div>
@@ -274,6 +332,11 @@ export default function App() {
         <button className="wordmark" onClick={returnToMap} aria-label="Return to world map"><strong>KJ</strong><span>KHANAK.OS<br/>DIGITAL UNIVERSE</span></button>
         <div className="world-status"><i></i><span>{portfolio.opportunityStatus}</span><b>·</b><span>BASED IN INDIA</span></div>
         <div className="top-actions">
+          <div className="theme-control" aria-label="Color theme">
+            <svg className={'theme-icon sun-icon' + (theme === 'light' ? ' is-active' : '')} viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.7"/><path d="M12 2v2.1M12 19.9V22M4.93 4.93l1.49 1.49m11.16 11.16 1.49 1.49M2 12h2.1m15.8 0H22M4.93 19.07l1.49-1.49M17.58 6.42l1.49-1.49"/></svg>
+            <LiquidToggle checked={theme === 'light'} onChange={(checked) => applyTheme(checked ? 'light' : 'dark')} label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} size="md" color="emerald" className="theme-toggle" />
+            <svg className={'theme-icon moon-icon' + (theme === 'dark' ? ' is-active' : '')} viewBox="0 0 24 24" aria-hidden="true"><path d="M20.1 15.2A8.3 8.3 0 0 1 8.8 3.9 8.5 8.5 0 1 0 20.1 15.2Z"/></svg>
+          </div>
           <div className="mode-control"><span>{viewMode === 'terminal' ? 'TERMINAL' : 'EXPLORE'}</span><LiquidToggle checked={viewMode === 'terminal'} onChange={(checked) => { setViewMode(checked ? 'terminal' : 'explore'); if (checked) setEntered(true); }} label={`Switch to ${viewMode === 'terminal' ? 'explore' : 'terminal'} view`} size="lg" color="emerald" className="world-mode-toggle" /></div>
           <button className="guided-button" onClick={beginTour}>GUIDED TOUR <span>↗</span></button>
           <button className="reset-button" onClick={returnToMap} aria-label="Reset camera and return to world map">RESET VIEW <span>⌖</span></button>

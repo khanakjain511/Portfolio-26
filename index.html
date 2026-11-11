@@ -1,9 +1,28 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
+    <meta name="theme-color" content="#090909" />
+    <script>
+      (() => {
+        const root = document.documentElement;
+        let theme = 'dark';
+        try {
+          const saved = localStorage.getItem('khanak-theme');
+          theme = saved === 'light' || saved === 'dark'
+            ? saved
+            : window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        } catch {
+          theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        root.dataset.theme = theme;
+        root.classList.toggle('dark', theme === 'dark');
+        root.style.colorScheme = theme;
+        root.style.backgroundColor = theme === 'light' ? '#F1EEE8' : '#090909';
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#F1EEE8' : '#090909');
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080a09" />
     <meta name="description" content="Khanak Jain — CSE–AI student, developer, and curious builder exploring technology, creativity, and product thinking." />
     <meta property="og:title" content="KHANAK.OS — A Digital Universe" />
     <meta property="og:description" content="Enter Khanak Jain’s interactive digital universe. A curious builder learning by making." />
