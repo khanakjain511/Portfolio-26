@@ -337,7 +337,7 @@ export default function App() {
             <LiquidToggle checked={theme === 'light'} onChange={(checked) => applyTheme(checked ? 'light' : 'dark')} label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} size="md" color="emerald" className="theme-toggle" />
             <svg className={'theme-icon moon-icon' + (theme === 'dark' ? ' is-active' : '')} viewBox="0 0 24 24" aria-hidden="true"><path d="M20.1 15.2A8.3 8.3 0 0 1 8.8 3.9 8.5 8.5 0 1 0 20.1 15.2Z"/></svg>
           </div>
-          <div className="mode-control"><span>{viewMode === 'terminal' ? 'TERMINAL' : 'EXPLORE'}</span><LiquidToggle checked={viewMode === 'terminal'} onChange={(checked) => { setViewMode(checked ? 'terminal' : 'explore'); if (checked) setEntered(true); }} label={`Switch to ${viewMode === 'terminal' ? 'explore' : 'terminal'} view`} size="lg" color="emerald" className="world-mode-toggle" /></div>
+          <div className="mode-control"><span>{viewMode === 'terminal' ? 'TERMINAL' : 'EXPLORE'}</span><LiquidToggle checked={viewMode === 'terminal'} onChange={(checked) => { setViewMode(checked ? 'terminal' : 'explore'); if (checked) setEntered(true); }} label={`Switch to ${viewMode === 'terminal' ? 'explore' : 'terminal'} view`} size="md" color="emerald" className="world-mode-toggle" /></div>
           <button className="guided-button" onClick={beginTour}>GUIDED TOUR <span>↗</span></button>
           <button className="reset-button" onClick={returnToMap} aria-label="Reset camera and return to world map">RESET VIEW <span>⌖</span></button>
         </div>
@@ -413,8 +413,6 @@ export default function App() {
           </motion.aside>
         )}
       </AnimatePresence>
-
-      <div className="world-coordinate" aria-hidden="true">{portfolio.systemState.map((line) => <span key={line}>{line}</span>)}<span>{activeLocation ? activeLocation.glyph : 'ORIGIN / 00'}</span></div>
 
       {!worldReady && !worldFailed && <div className="loading-status" role="status"><span className="loader-dot"></span> {worldReady ? 'WORLD ONLINE' : 'INITIALIZING WORLD'}</div>}
       {worldFailed && <div className="world-warning" role="status">3D is unavailable on this device. Use the location menu to read the same archive.</div>}

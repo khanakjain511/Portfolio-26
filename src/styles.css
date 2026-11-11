@@ -175,14 +175,14 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 .world-status i, .panel-live i, .world-footer i { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--accent-glow); }
 .world-status b { color: var(--text-dim); }
 .top-actions { gap: 8px; }
-.top-actions > button, .guided-button, .reset-button { border: 1px solid var(--rule); background: var(--surface); padding: 10px 13px; color: var(--text-soft); cursor: pointer; transition: background .25s, border-color .25s, color .25s; }
+.top-actions > button, .guided-button, .reset-button { height: 46px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--rule); background: var(--surface); padding: 0 13px; color: var(--text-soft); line-height: 1; cursor: pointer; transition: background .25s, border-color .25s, color .25s; }
 .top-actions > button:hover { border-color: var(--green); color: var(--green); background: var(--surface-raised); }
 .top-actions > button span { margin-left: 10px; color: var(--green); }
-.mode-control { display: flex; align-items: center; gap: 10px; min-height: 54px; padding: 0 12px; border: 1px solid var(--accent-border); background: var(--panel-soft); box-shadow: 0 0 28px var(--glow); }
+.mode-control { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 12px; border: 1px solid var(--accent-border); background: var(--panel-soft); box-shadow: 0 0 28px var(--glow); }
 .mode-control > span { min-width: 55px; color: var(--green); font: 500 .55rem var(--mono); letter-spacing: .12em; }
 .world-mode-toggle { box-shadow: 0 0 16px rgba(182, 240, 156, .08); }
 .world-mode-toggle:focus-visible { outline-color: var(--green) !important; }
-.theme-control { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 48px; padding: 0 10px; border: 1px solid var(--rule); border-radius: 3px; background: var(--button-surface); }
+.theme-control { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 46px; padding: 0 10px; border: 1px solid var(--rule); border-radius: 3px; background: var(--button-surface); }
 .theme-icon { width: 15px; height: 15px; fill: none; stroke: var(--text-faint); stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; opacity: .68; transition: stroke .25s, opacity .25s, filter .25s; }
 .theme-icon.is-active { stroke: var(--green); opacity: 1; filter: drop-shadow(0 0 5px var(--glow)); }
 .theme-toggle { box-shadow: 0 0 14px var(--glow); }
@@ -200,8 +200,6 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 .world-instructions span { display: inline-flex; align-items: center; gap: 7px; }
 .mouse-icon { width: 10px; height: 15px; border: 1px solid var(--text-subtle); border-radius: 8px; display: inline-block; position: relative; }
 .mouse-icon::before { content: ""; position: absolute; left: 4px; top: 2px; height: 3px; border-left: 1px solid var(--green); }
-.world-coordinate { position: absolute; z-index: 2; left: 4.1vw; bottom: 36px; display: flex; flex-direction: column; gap: 7px; font: 500 .55rem var(--mono); letter-spacing: .12em; color: var(--text-muted); }
-.world-coordinate span + span { color: var(--green); }
 .world-footer { position: absolute; z-index: 3; bottom: 0; left: 0; right: 0; height: 33px; padding: 0 4.1vw; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--rule-soft); color: var(--text-muted); font: 500 .52rem var(--mono); letter-spacing: .08em; background: var(--surface); }
 .world-footer i { width: 5px; height: 5px; margin-left: 6px; }
 
@@ -376,7 +374,6 @@ h1 em, h2 em { color: var(--accent-soft); font-family: Georgia, serif; font-weig
   .entry-screen { padding-left: 20vw; padding-right: 8vw; }
   .entry-ascii { right: 8vw; }
   .location-panel { width: min(470px, 46vw); right: 2vw; }
-  .world-coordinate { left: 2.2vw; }
 }
 @media (max-width: 760px) {
   .experience-shell { min-height: 100svh; }
@@ -386,9 +383,10 @@ h1 em, h2 em { color: var(--accent-soft); font-family: Georgia, serif; font-weig
   .wordmark span { font-size: .48rem; }
   .world-status { display: none; }
   .top-actions { gap: 5px; }
-  .top-actions > button { padding: 8px 9px; font-size: .47rem; letter-spacing: .05em; }
+  .top-actions > button { height: 42px; padding: 0 9px; font-size: .47rem; letter-spacing: .05em; }
   .top-actions > button span { margin-left: 3px; }
-  .mode-control { gap: 6px; min-height: 42px; padding: 0 7px; }
+  .theme-control { height: 42px; }
+  .mode-control { gap: 6px; height: 42px; padding: 0 7px; }
   .mode-control > span { min-width: 46px; font-size: .45rem; }
   .location-nav { top: auto; left: 12px; right: 12px; bottom: 49px; transform: none; width: auto; flex-direction: row; overflow-x: auto; gap: 3px; padding: 7px; border: 1px solid var(--nav-border); background: var(--nav-mobile); backdrop-filter: blur(13px); scrollbar-width: none; }
   .location-nav::-webkit-scrollbar { display: none; }
@@ -398,7 +396,6 @@ h1 em, h2 em { color: var(--accent-soft); font-family: Georgia, serif; font-weig
   .location-nav button.active { border: 1px solid var(--accent-border); background: var(--nav-active); }
   .world-instructions { top: 77px; gap: 12px; width: 100%; justify-content: center; font-size: .43rem; letter-spacing: .08em; }
   .world-instructions span { gap: 4px; }
-  .world-coordinate { left: 15px; bottom: 106px; font-size: .46rem; }
   .world-footer { height: 28px; padding: 0 14px; font-size: .42rem; }
   .world-footer span:nth-child(2) { display: none; }
   .entry-screen { display: flex; align-items: center; justify-content: center; padding: 100px 22px 180px; background: var(--entry-gradient-mobile); }
@@ -448,12 +445,12 @@ h1 em, h2 em { color: var(--accent-soft); font-family: Georgia, serif; font-weig
   .wordmark { gap: 6px; }
   .wordmark span { font-size: .41rem; }
   .top-actions { gap: 4px; }
-  .mode-control { gap: 4px; padding: 0 5px; }
+  .mode-control { gap: 4px; height: 42px; padding: 0 5px; }
   .mode-control > span { min-width: 0; font-size: .39rem; }
-  .theme-control { gap: 4px; min-height: 42px; padding: 0 5px; }
+  .theme-control { gap: 4px; height: 42px; padding: 0 5px; }
   .theme-icon { width: 12px; height: 12px; }
   .theme-toggle { transform: scale(.88); transform-origin: center; margin: 0 -3px; }
-  .top-actions .reset-button { padding: 7px 6px; font-size: .4rem; }
+  .top-actions .reset-button { height: 42px; padding: 0 6px; font-size: .4rem; }
 }
 @media (max-width: 400px) {
   .top-actions .guided-button { display: none; }
