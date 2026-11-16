@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta name="theme-color" content="#090909" />
+    <meta name="theme-color" content="#11120F" />
     <script>
       (() => {
         const root = document.documentElement;
@@ -17,8 +17,8 @@
         root.dataset.theme = theme;
         root.classList.toggle('dark', theme === 'dark');
         root.style.colorScheme = theme;
-        root.style.backgroundColor = theme === 'light' ? '#F1EEE8' : '#090909';
-        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#F1EEE8' : '#090909');
+        root.style.backgroundColor = theme === 'light' ? '#F4F0E7' : '#11120F';
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#F4F0E7' : '#11120F');
       })();
     </script>
     <meta charset="UTF-8" />
