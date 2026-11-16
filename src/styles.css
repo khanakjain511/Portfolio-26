@@ -287,7 +287,6 @@ h1 em, h2 em { color: var(--accent-soft); font-family: Georgia, serif; font-weig
 .campaign-card-title strong { font-size: .61rem; font-weight: 500; line-height: 1.35; }
 .campaign-card-title b, .story-card summary b { color: var(--green); font-weight: 400; }
 .campaign-detail { padding: 0 9px 10px; }
-.media-placeholder { display: block; padding: 9px 6px; border: 1px dashed var(--accent-border); color: var(--text-subtle); text-align: center; font: 500 .38rem var(--mono); letter-spacing: .04em; }
 .storyboard-details { margin: 10px 0; border-bottom: 1px solid var(--rule); }
 .storyboard-details summary { display: flex; justify-content: space-between; padding: 10px 0; color: var(--green); cursor: pointer; font: 500 .48rem var(--mono); letter-spacing: .08em; }
 .storyboard-notes { padding: 0 0 10px; color: var(--text-muted); font-size: .67rem; line-height: 1.7; }
