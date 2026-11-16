@@ -157,7 +157,7 @@ const hacktoberfestPosts = {
   devclubUi: 'https://www.linkedin.com/feed/update/urn:li:activity:7518899117520150528',
   techTake: 'https://www.linkedin.com/feed/update/urn:li:activity:7521435988766769152',
 };
-const orientationStories = ['Arrival Day', 'From Their Journey to Yours', 'Lost at Sea', 'Myth vs Reality', 'Club Onboarding', 'Four Years, Countless Choices'];
+const orientationStories = ['Arrival Day', 'From Their Journey to Yours', 'Lost at Sea', 'Myth vs Reality', 'Four Years, Countless Choices', 'Club Onboarding'];
 
 function ContentStories() {
   return <div className="content-world">
