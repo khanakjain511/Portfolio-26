@@ -7,7 +7,7 @@ import { AnimatedButton } from './components/ui/animated-button';
 import { LiquidToggle } from './components/ui/liquid-toggle';
 
 const World = lazy(() => import('./World'));
-const tourOrder: LocationId[] = ['about', 'projects', 'tech', 'experience', 'achievements', 'contact'];
+const tourOrder: LocationId[] = ['about', 'projects', 'tech', 'experience', 'content', 'achievements', 'contact'];
 type Theme = 'light' | 'dark';
 type DocumentWithViewTransition = Document & {
   startViewTransition?: (update: () => void) => { finished: Promise<void> };
@@ -125,6 +125,8 @@ function LocationContent({ id, compact = false }: { id: LocationId; compact?: bo
     </>
   );
 
+  if (id === 'content') return <ContentStories />;
+
   return (
     <>
       <p className="panel-lead">Choose a channel.</p>
@@ -140,6 +142,25 @@ function LocationContent({ id, compact = false }: { id: LocationId; compact?: bo
       </div>
     </>
   );
+}
+
+const contentCampaigns = [
+  { title: 'Hacktoberfest & Hackday', code: '01 / COMMUNITY', detail: 'Campaign planning, event promotion, messaging and execution across LinkedIn and Instagram.', art: 'OPEN SOURCE\nMEETS\nCAMPUS' },
+  { title: 'Speaker Announcements', code: '02 / PEOPLE', detail: 'Speaker-focused announcements shaped to introduce the people and ideas behind each session.', art: 'A VOICE\nWORTH\nHEARING' },
+  { title: 'Meet the Club & Tech Take', code: '03 / SERIES', detail: 'Recurring formats that make the club and its technology conversations easier to discover.', art: 'PEOPLE ×\nTECH\nCULTURE' },
+  { title: 'Community & Event Coverage', code: '04 / FIELD NOTES', detail: 'Social communication and coverage that carries event moments into the wider community.', art: 'IN THE\nROOM /\nIN THE FEED' },
+];
+const orientationStories = ['Arrival Day', 'From Their Journey to Yours', 'Lost at Sea', 'Myth vs Reality', 'Four Years, Countless Choices', 'Club Onboarding'];
+
+function ContentStories() {
+  return <div className="content-world">
+    <section className="content-intro-card"><span className="content-label">CONTENT. STORIES. TECHNOLOGY.</span><h3>Words meet <em>worlds.</em></h3><p>Computer Science student at Newton School of Technology, interested in content, marketing and technology-driven storytelling.</p><p>Currently Marketing &amp; Content Lead at DevClub. I also contribute to NST institutional marketing videos through scripting, filming, direction and presenting.</p></section>
+    <section className="content-world-block"><div className="content-world-heading"><span className="content-label">DEVCLUB / MARKETING &amp; CONTENT LEAD</span><small>LINKEDIN · INSTAGRAM</small></div><p>Content strategy, campaign planning, messaging, promotion and execution.</p><div className="campaign-grid">{contentCampaigns.map((campaign, index) => <details className="campaign-card" key={campaign.title}><summary><span className="campaign-art">{campaign.art}<i>CAMPAIGN {String(index + 1).padStart(2, '0')}</i></span><span className="campaign-card-title"><small>{campaign.code}</small><strong>{campaign.title}</strong><b>+</b></span></summary><div className="campaign-detail"><p>{campaign.detail}</p><span className="media-placeholder">POST / CAMPAIGN SCREENSHOT PLACEHOLDER</span></div></details>)}</div></section>
+    <section className="content-world-block orientation-block"><div className="content-world-heading"><span className="content-label">NST ORIENTATION 2026</span><small>IN POST-PRODUCTION</small></div><p>Scriptwriter · Filming · Direction · On-camera Presenter</p><details className="storyboard-details"><summary>OPEN THE STORYBOARD <span>↗</span></summary><div className="storyboard-notes">Presenter-led scripts and dialogues; introductions, transitions and daily outros; vox-pop questions; camera directions and B-roll planning; filming, directing and presenting.</div></details><div className="story-timeline">{orientationStories.map((story, index) => <details className="story-card" key={story}><summary><i>0{index + 1}</i><span>{story}</span><b>+</b></summary><div><small>ORIENTATION 2026 / STORY BEAT {String(index + 1).padStart(2, '0')}</small><p>Script, visual planning and on-camera storytelling.</p>{index === 0 && <blockquote>“Rules that'll keep you on track, and stories that'll keep you inspired.”</blockquote>}{index === 1 && <blockquote>“Because starting tomorrow, Orientation 2026 actually begins.”</blockquote>}</div></details>)}</div></section>
+    <section className="content-world-block"><span className="content-label">MY APPROACH TO CONTENT</span><div className="approach-line">{['Understand', 'Find the Story', 'Plan', 'Create', 'Distribute'].map((step, index) => <span key={step}><i>0{index + 1}</i>{step}{index < 4 && <b>→</b>}</span>)}</div></section>
+    <section className="content-world-block tech-story-block"><span className="content-label">TECHNOLOGY × STORYTELLING</span><p>Exploring AI-generated video, creator workflows, product storytelling and AI-powered content production.</p><div className="tech-story-tags"><span>AI VIDEO</span><span>CREATOR WORKFLOWS</span><span>PRODUCT STORIES</span></div></section>
+    <section className="content-contact-card"><span className="content-label">LET'S BUILD SOMETHING</span><h3>KHANAK JAIN</h3><p>Content · Marketing · Storytelling · Technology</p><div><a href={'mailto:' + portfolio.contact.email}>EMAIL ↗</a><a href={portfolio.contact.linkedin} target="_blank" rel="noreferrer">LINKEDIN ↗</a></div></section>
+  </div>;
 }
 
 function AccessibleArchive({ onNavigate }: { onNavigate: (id: LocationId) => void }) {
@@ -185,8 +206,8 @@ export default function App() {
       root.dataset.theme = next;
       root.classList.toggle('dark', next === 'dark');
       root.style.colorScheme = next;
-      root.style.backgroundColor = next === 'light' ? '#F1EEE8' : '#090909';
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', next === 'dark' ? '#090909' : '#F1EEE8');
+      root.style.backgroundColor = next === 'light' ? '#F4F0E7' : '#11120F';
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', next === 'dark' ? '#11120F' : '#F4F0E7');
       root.classList.add('theme-changing');
       window.clearTimeout(themeTransitionTimer.current);
       themeTransitionTimer.current = window.setTimeout(() => root.classList.remove('theme-changing'), 480);
@@ -264,6 +285,8 @@ export default function App() {
       tech: 'tech',
       archive: 'tech',
       experience: 'experience',
+      content: 'content',
+      stories: 'content',
       achievements: 'achievements',
       contact: 'contact',
     };
@@ -377,10 +400,10 @@ export default function App() {
       <AnimatePresence initial={false}>
         {entered && !activeLocation && viewMode === 'explore' && (
           <motion.section key="map-prompt" className="map-prompt" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: reducedMotion ? 0 : 0.35 }}>
-            <span className="eyebrow">WORLD MAP / 06 LOCATIONS</span>
-            <h1>Find your<br/><em>way in.</em></h1>
+            <span className="eyebrow">WORLD MAP / 07 LOCATIONS</span>
+          <h1>Find your<br/><em>way in.</em></h1>
             <p>Choose an island. Orbit to explore.</p>
-            <div className="map-hint"><span>01—06</span><span>CLICK A PLATFORM OR USE THE MENU</span></div>
+            <div className="map-hint"><span>01—07</span><span>CLICK A PLATFORM OR USE THE MENU</span></div>
           </motion.section>
         )}
       </AnimatePresence>
@@ -408,7 +431,7 @@ export default function App() {
             <div className="panel-rule"><span></span><small>KHANAK / 2026</small></div>
             <div className="panel-content"><LocationContent id={activeLocation.id} compact /></div>
             {tourIndex !== null && (
-              <div className="tour-controls"><span>GUIDED TOUR / {String(tourIndex + 1).padStart(2, '0')} OF 06</span><button onClick={() => moveTour(1)}>{tourIndex === 5 ? 'FINISH TOUR' : 'NEXT LOCATION ↗'}</button></div>
+              <div className="tour-controls"><span>GUIDED TOUR / {String(tourIndex + 1).padStart(2, '0')} OF 07</span><button onClick={() => moveTour(1)}>{tourIndex === tourOrder.length - 1 ? 'FINISH TOUR' : 'NEXT LOCATION ↗'}</button></div>
             )}
           </motion.aside>
         )}
