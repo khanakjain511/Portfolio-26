@@ -18,18 +18,18 @@ type WorldProps = {
 
 const scenePalette = {
   dark: {
-    accent: '#B6F09C',
-    spots: { about: '#c5d4bd', projects: '#b6f09c', tech: '#d4d1bf', experience: '#a7c5ad', achievements: '#d6c7a0', contact: '#b5ccbe' },
+    accent: '#B6C69A',
+    spots: { about: '#c5d4bd', projects: '#b6c69a', tech: '#d4d1bf', experience: '#a7c5ad', content: '#c58f70', achievements: '#d6c7a0', contact: '#b5ccbe' },
     platform: '#1a201c', activePlatform: '#354436', platformTop: '#101512', identityBase: '#202a22', identityTop: '#131a15', sculpture: '#d7ddd2',
     project: ['#c9d3c3', '#adc6b0', '#c8cfbc', '#c4cbd2', '#d2d4c6'], projectGlow: '#314531',
-    clear: '#090909', fog: '#090909', ambient: '#b3bdaf', sky: '#667a68', ground: '#090b09', key: '#e6e8d9', fill: '#597b5c', grid: '#1c2a1e', gridSection: '#344033',
+    clear: '#11120F', fog: '#11120F', ambient: '#b3bdaf', sky: '#667a68', ground: '#090b09', key: '#e6e8d9', fill: '#597b5c', grid: '#1c2a1e', gridSection: '#344033',
   },
   light: {
-    accent: '#526C42',
-    spots: { about: '#657458', projects: '#526C42', tech: '#72694f', experience: '#536c5c', achievements: '#806d3e', contact: '#536c63' },
+    accent: '#788365',
+    spots: { about: '#657458', projects: '#788365', tech: '#72694f', experience: '#536c5c', content: '#D5A184', achievements: '#806d3e', contact: '#536c63' },
     platform: '#c9c4b8', activePlatform: '#b5bea9', platformTop: '#ded9cc', identityBase: '#c6c0b4', identityTop: '#e7e2d7', sculpture: '#70796a',
     project: ['#737c68', '#64775f', '#807b68', '#6c7780', '#827d6b'], projectGlow: '#788d67',
-    clear: '#F1EEE8', fog: '#e5e0d5', ambient: '#fff8e8', sky: '#e5ead9', ground: '#898779', key: '#fff7e5', fill: '#8da37b', grid: '#c9c6b8', gridSection: '#aaa995',
+    clear: '#F4F0E7', fog: '#F4F0E7', ambient: '#fff8e8', sky: '#e5ead9', ground: '#898779', key: '#fff7e5', fill: '#8da37b', grid: '#DED8CB', gridSection: '#aaa995',
   },
 };
 

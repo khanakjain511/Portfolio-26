@@ -8,7 +8,7 @@ export type Project = {
   links: { github: string; demo: string };
 };
 
-export type LocationId = 'about' | 'projects' | 'tech' | 'experience' | 'achievements' | 'contact';
+export type LocationId = 'about' | 'projects' | 'tech' | 'experience' | 'content' | 'achievements' | 'contact';
 export type Location = { id: LocationId; title: string; subtitle: string; position: [number, number, number]; glyph: string };
 
 export const portfolio = {
@@ -77,8 +77,9 @@ export const locations: Location[] = [
   { id: 'projects', title: 'PROJECT LAB', subtitle: 'Things made to matter', position: [-3.2, 0.1, -7.2], glyph: '02 / BUILDS' },
   { id: 'tech', title: 'TECH ARCHIVE', subtitle: 'Tools are a means', position: [2.5, 0.05, -7.1], glyph: '03 / INVENTORY' },
   { id: 'experience', title: 'EXPERIENCE', subtitle: 'People make the work', position: [6.1, 0, -2.3], glyph: '04 / COMMUNITY' },
-  { id: 'achievements', title: 'ACHIEVEMENTS', subtitle: 'A moment to remember', position: [5.1, 0, 4.2], glyph: '05 / MILESTONES' },
-  { id: 'contact', title: 'CONTACT', subtitle: 'An open channel', position: [-4.8, 0, 4.3], glyph: '06 / SIGNAL' },
+  { id: 'content', title: 'CONTENT', subtitle: 'Stories, campaigns & technology', position: [0, 0.1, 8.2], glyph: '05 / STORY LAB' },
+  { id: 'achievements', title: 'ACHIEVEMENTS', subtitle: 'A moment to remember', position: [5.1, 0, 4.2], glyph: '06 / MILESTONES' },
+  { id: 'contact', title: 'CONTACT', subtitle: 'An open channel', position: [-4.8, 0, 4.3], glyph: '07 / SIGNAL' },
 ];
 
 export const asciiSignal = [
