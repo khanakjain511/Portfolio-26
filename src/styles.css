@@ -267,6 +267,15 @@ h1 em, h2 em { color: var(--accent-soft); font-family: Georgia, serif; font-weig
 .content-world-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .content-world-heading small, .content-world-block > p { color: var(--text-muted); font: 500 .48rem/1.7 var(--mono); letter-spacing: .07em; }
 .content-world-block > p { font: 400 .7rem/1.7 "Manrope", sans-serif; letter-spacing: 0; }
+.content-section-title { margin: 13px 0 6px; font-size: 1.05rem; line-height: 1.2; font-weight: 500; letter-spacing: -.045em; }
+.responsibility-details { margin: 11px 0 16px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.responsibility-details summary { display: flex; justify-content: space-between; padding: 10px 0; color: var(--green); cursor: pointer; list-style: none; font: 500 .48rem var(--mono); letter-spacing: .08em; }
+.responsibility-details summary::-webkit-details-marker { display: none; }
+.responsibility-details ul, .campaign-phases { margin: 0; padding: 0 0 11px 15px; color: var(--text-muted); font-size: .65rem; line-height: 1.75; }
+.campaign-section-label { margin-bottom: 10px; }
+.featured-campaign { grid-column: 1 / -1; }
+.featured-campaign .campaign-art { min-height: 118px; font-size: 1.2rem; }
+.campaign-phases { margin: 0 0 9px; padding-bottom: 0; font-size: .58rem; }
 .campaign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .campaign-card { border: 1px solid var(--rule); background: var(--card-surface); }
 .campaign-card summary { list-style: none; cursor: pointer; }
