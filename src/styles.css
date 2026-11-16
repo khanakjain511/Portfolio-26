@@ -310,6 +310,50 @@ h1 em, h2 em { color: var(--accent-soft); font-family: Georgia, serif; font-weig
 .content-contact-card h3 { margin: 11px 0 0; }
 .content-contact-card > div { display: flex; gap: 8px; margin-top: 12px; }
 .content-contact-card a { padding: 8px 9px; border: 1px solid var(--accent-border); color: var(--green); text-decoration: none; font: 500 .48rem var(--mono); }
+.hacktoberfest-feature { margin: 14px 0 18px; padding: 15px; border: 1px solid var(--accent-border); background: linear-gradient(145deg, color-mix(in srgb, var(--green) 9%, var(--panel)), var(--panel)); box-shadow: 9px 9px 0 color-mix(in srgb, var(--accent-soft) 10%, transparent); }
+.feature-kicker { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--text-faint); font: 500 .39rem var(--mono); letter-spacing: .08em; }
+.hacktoberfest-feature > h3 { margin: 18px 0 5px; font-size: clamp(1.6rem, 6vw, 2.4rem); line-height: .95; font-weight: 500; letter-spacing: -.075em; }
+.hacktoberfest-feature > h3 em { color: var(--accent-soft); font-family: Georgia, serif; font-weight: 400; }
+.hacktoberfest-feature > p { margin: 7px 0; }
+.hacktoberfest-feature .feature-role { color: var(--text-soft); font-size: .63rem; font-weight: 600; }
+.hacktoberfest-feature .feature-summary { font-size: .63rem; }
+.hacktoberfest-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0 18px; }
+.hacktoberfest-metrics a { display: grid; grid-template-columns: 1fr auto; align-items: baseline; padding: 9px 10px; border: 1px solid var(--rule); color: var(--text); text-decoration: none; }
+.hacktoberfest-metrics strong { color: var(--green); font-size: 1.15rem; font-weight: 500; letter-spacing: -.06em; }
+.hacktoberfest-metrics span { color: var(--text-muted); font: 500 .4rem var(--mono); }
+.hacktoberfest-metrics small { grid-column: 1 / -1; margin-top: 3px; color: var(--text-faint); font: 500 .34rem var(--mono); letter-spacing: .07em; }
+.campaign-timeline { position: relative; display: grid; gap: 11px; margin: 12px 0 4px 3px; padding-left: 13px; border-left: 1px solid var(--accent-border); }
+.campaign-phase { position: relative; padding-bottom: 8px; }
+.campaign-phase::before { content: ""; position: absolute; left: -17px; top: 3px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-soft); box-shadow: 0 0 0 3px var(--panel); }
+.campaign-phase h4 { display: flex; align-items: center; gap: 6px; margin: 0 0 8px; color: var(--text-soft); font: 500 .47rem var(--mono); letter-spacing: .07em; }
+.campaign-phase h4 i { color: var(--green); font-style: normal; }
+.campaign-phase h4 span { margin-left: auto; color: var(--text-faint); font-size: .37rem; }
+.evidence-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.evidence-card { display: block; min-width: 0; color: inherit; text-decoration: none; }
+.evidence-preview { min-height: 92px; display: flex; flex-direction: column; justify-content: space-between; padding: 8px; border: 1px dashed var(--accent-border); background: color-mix(in srgb, var(--surface) 78%, transparent); transition: border-color .2s, transform .2s, background .2s; }
+.evidence-card:hover .evidence-preview { border-style: solid; border-color: var(--green); background: var(--green-soft); transform: translateY(-2px); }
+.evidence-preview small { color: var(--text-faint); font: 500 .34rem var(--mono); letter-spacing: .05em; }
+.evidence-preview b { color: var(--text-muted); font: 500 .43rem/1.4 var(--mono); }
+.evidence-preview i { color: var(--green); font: 500 .34rem var(--mono); font-style: normal; }
+.evidence-card > strong { display: block; margin-top: 5px; font-size: .49rem; line-height: 1.3; font-weight: 500; }
+.phase-note { padding: 9px; border: 1px solid var(--rule); color: var(--text-muted); font-size: .59rem; }
+.recap-evidence { max-width: 240px; }
+.recap-evidence .evidence-preview { min-height: 83px; }
+.feature-responsibilities { margin: 11px 0 0; }
+.evidence-secondary { display: grid; gap: 9px; margin: 12px 0; }
+.editorial-evidence-card { position: relative; padding: 13px; border: 1px solid var(--rule); background: var(--card-surface); }
+.editorial-evidence-card h4 { margin: 12px 0 3px; font-size: 1.18rem; font-weight: 500; letter-spacing: -.05em; }
+.editorial-evidence-card > p { margin: 4px 0; font-size: .62rem; }
+.editorial-evidence-card .evidence-subtitle { color: var(--text-muted); font-size: .55rem; }
+.product-milestones { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0; }
+.product-milestones span { display: grid; gap: 2px; padding: 6px; border: 1px solid var(--rule); color: var(--text-faint); font: 500 .36rem var(--mono); }
+.product-milestones b { color: var(--green); font-size: .66rem; font-weight: 500; }
+.evidence-open-link { display: inline-block; margin-top: 7px; padding: 7px 8px; border: 1px solid var(--accent-border); color: var(--green); text-decoration: none; font: 500 .39rem var(--mono); letter-spacing: .05em; }
+.evidence-open-link:hover { background: var(--green-soft); }
+.metric-note { display: block; margin-top: 6px; color: var(--text-faint); font: 500 .35rem var(--mono); }
+.tech-take-tags { display: grid; gap: 4px; margin: 9px 0; }
+.tech-take-tags span { color: var(--text-muted); font: 500 .4rem var(--mono); letter-spacing: .03em; }
+.secondary-campaign-grid { margin-top: 16px; }
 .lab-ascii { margin: 15px 0 0; color: var(--accent-soft); font: 500 .58rem/1.45 var(--mono); }
 .content-block { margin-top: 22px; padding: 17px; border: 1px solid var(--rule); background: var(--card-surface); }
 .content-label { display: block; margin-bottom: 8px; color: var(--green); font: 500 .53rem var(--mono); letter-spacing: .11em; }
